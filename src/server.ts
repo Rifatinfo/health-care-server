@@ -1,13 +1,15 @@
 import { Server } from 'http';
 import app from './app';
+import { prisma } from './app/config/db';
+import { envVars } from './app/config/env';
 
 
 let server: Server;
 
 async function connectToDB(){
     try{
-    //    await prisma.$connect();
-        console.log("*** DB connection successfully ***");
+       await prisma.$connect();
+       console.log("*** DB connection successfully ***");
     }catch(error){
        console.log("*** DB connection failed");
        process.exit(1);
@@ -18,7 +20,7 @@ async function connectToDB(){
 const startServer = async () => {
     try {
         await connectToDB();
-        server = app.listen(5000, () => {
+        server = app.listen(envVars.PORT, () => {
             console.log("Server is Running");
         })
     } catch (error) {
