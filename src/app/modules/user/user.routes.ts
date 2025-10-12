@@ -1,6 +1,8 @@
 import { Router } from "express";
+import { UserController } from "./user.controller";
 
- const router = Router();
 
+const router = Router();
+router.post("/create-patient", UserController.createPatient);
 
- export const UserRoute = router;
+export const UserRoute = router;
