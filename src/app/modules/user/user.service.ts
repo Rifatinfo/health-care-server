@@ -6,11 +6,11 @@ import { fileUploader } from "../../helper/fileUploader";
 const createPatient = async (req : Request) => {
     if(req.file){
        const uploadResult = await fileUploader.uploadToCloudinary(req.file);
-       console.log(uploadResult);
-       
+       req.body.patient.profilePhoto = uploadResult?.secure_url
     }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
-
+    console.log(hashPassword);
+    
     const result = await prisma.$transaction(async (tnx) => {
          await tnx.user.create({
             data : {
