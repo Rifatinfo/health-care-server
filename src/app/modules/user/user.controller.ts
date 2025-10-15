@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../middlewares/catchAsync";
 import { UserService } from "./user.service";
 import { sendResponse } from "../../middlewares/sendResponse";
-import { prisma } from "../../config/db";
 import pick from "../../helper/pick";
 import { userFilterableFields } from "./user.constant";
 
@@ -15,6 +14,18 @@ const createPatient = catchAsync(async (req: Request, res: Response, next: NextF
     statusCode: 201,
     success: true,
     message: "Patient create successfully",
+    data: result
+  })
+})
+
+const createAdmin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const result = await UserService.createAdmin(req);
+  console.log(result);
+
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: "Admin create successfully",
     data: result
   })
 })
@@ -37,5 +48,6 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
 
 export const UserController = {
   createPatient,
-  getAllFromDB
+  getAllFromDB,
+  createAdmin
 }
