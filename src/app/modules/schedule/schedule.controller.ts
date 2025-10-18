@@ -3,6 +3,7 @@ import { catchAsync } from "../../middlewares/catchAsync";
 import { sendResponse } from "../../middlewares/sendResponse";
 import { ScheduleService } from "./schedule.service";
 import pick from "../../helper/pick";
+import { AuthenticatedRequest, IJwtPayload } from "../../types/common";
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
     const result = await ScheduleService.insertIntoDB(req.body);
@@ -14,11 +15,11 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
-const scheduleForDoctor = catchAsync(async (req: Request, res: Response) => {
+const scheduleForDoctor = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
     const options = pick(req.query, ["page", "limit", "sortBy", "sortOrder"]);
     const filter = pick(req.query, ["startDateTime", "endDateTime"]);
-
-    const result = await ScheduleService.scheduleForDoctor(options, filter);
+    const user = req.user;
+    const result = await ScheduleService.scheduleForDoctor(user as IJwtPayload, options, filter);
 
     sendResponse(res, {
         statusCode: 200,
