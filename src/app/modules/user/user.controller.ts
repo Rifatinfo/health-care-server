@@ -8,7 +8,6 @@ import { userFilterableFields } from "./user.constant";
 
 const createPatient = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const result = await UserService.createPatient(req);
-  console.log(result);
 
   sendResponse(res, {
     statusCode: 201,
