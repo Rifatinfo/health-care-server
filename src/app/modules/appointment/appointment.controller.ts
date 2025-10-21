@@ -18,6 +18,8 @@ const createAppointment = catchAsync
 });
 
 
+
+
 export const AppointmentController = {
     createAppointment,
 }
