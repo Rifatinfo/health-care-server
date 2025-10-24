@@ -67,6 +67,11 @@ const getAllFromDB = async (filters: any, options: IOptions) => {
                 include: {
                     specialities: true
                 }
+            },
+            review : {
+                select : {
+                    rating : true
+                }
             }
         }
     });
@@ -130,7 +135,8 @@ const updateIntoDB = async (id: string, payload: Partial<IDoctorUpdateInput>) =>
                     include: {
                         specialities: true
                     }
-                }
+                },
+                review : true
             }
         })
 
